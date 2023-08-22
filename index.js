@@ -3,6 +3,7 @@ import { Ryu } from './entities/fighters/Ryu.js';
 import { Stage } from './entities/Stage.js';
 import { FpsCounter } from './entities/FpsCounter.js';
 import { STAGE_FLOOR } from './constants/stage.js';
+import { FighterDirection } from './constants/fighter.js';
 
 
 const GameViewport = {
@@ -19,8 +20,8 @@ window.addEventListener  ('load', function() {
 
     const entities = [
     new Stage(),
-    new Ken(80, STAGE_FLOOR, 150),
-    new Ryu(80, STAGE_FLOOR, -150),
+    new Ryu(104, STAGE_FLOOR, FighterDirection.RIGHT),
+    new Ken(280, STAGE_FLOOR, FighterDirection.LEFT),
     new FpsCounter(),
     ];
 
