@@ -5,18 +5,11 @@ import { FpsCounter } from './entities/FpsCounter.js';
 import { STAGE_FLOOR } from './constants/stage.js';
 import { FighterDirection } from './constants/fighter.js';
 
-
-const GameViewport = {
-    WIDTH: 384,
-    HEIGHT: 220,
-}
-
 window.addEventListener  ('load', function() {
     const canvasEL = document.querySelector('canvas');
     const context = canvasEL.getContext('2d');
 
-    canvasEL.width = GameViewport.WIDTH;
-    canvasEL.height = GameViewport.HEIGHT;
+    context.imageSmoothingEnabled = false;
 
     const entities = [
     new Stage(),

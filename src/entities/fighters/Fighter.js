@@ -42,10 +42,10 @@ export class Fighter {
 
         context.beginPath();
         context.strokeStyle = 'white';
-        context.moveTo(this.position.x - 5, this.position.y);
-        context.lineTo(this.position.x + 4, this.position.y);
-        context.moveTo(this.position.x, this.position.y - 5);
-        context.lineTo(this.position.x, this.position.y + 4);
+        context.moveTo(Math.floor(this.position.x) - 4.5, Math.floor(this.position.y));
+        context.lineTo(Math.floor(this.position.x) + 4.5, Math.floor(this.position.y));
+        context.moveTo(Math.floor(this.position.x), Math.floor(this.position.y) - 5);
+        context.lineTo(Math.floor(this.position.x), Math.floor(this.position.y) + 4);
         context.stroke();
     }
 
@@ -60,7 +60,7 @@ export class Fighter {
             this.image,
              x, y, 
              width, height, 
-             this.position.x * this.direction - originX, this.position.y - originY, 
+             Math.floor(this.position.x * this.direction) - originX, Math.floor(this.position.y) - originY, 
              width, height);
         context.setTransform( 1, 0, 0, 1, 0, 0);
 
