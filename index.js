@@ -3,24 +3,18 @@ import { Ryu } from './entities/fighters/Ryu.js';
 import { Stage } from './entities/Stage.js';
 import { FpsCounter } from './entities/FpsCounter.js';
 import { STAGE_FLOOR } from './constants/stage.js';
-
-
-const GameViewport = {
-    WIDTH: 384,
-    HEIGHT: 220,
-}
+import { FighterDirection } from './constants/fighter.js';
 
 window.addEventListener  ('load', function() {
     const canvasEL = document.querySelector('canvas');
     const context = canvasEL.getContext('2d');
 
-    canvasEL.width = GameViewport.WIDTH;
-    canvasEL.height = GameViewport.HEIGHT;
+    context.imageSmoothingEnabled = false;
 
     const entities = [
     new Stage(),
-    new Ken(80, STAGE_FLOOR, 150),
-    new Ryu(80, STAGE_FLOOR, -150),
+    new Ryu(104, STAGE_FLOOR, FighterDirection.RIGHT),
+    new Ken(280, STAGE_FLOOR, FighterDirection.LEFT),
     new FpsCounter(),
     ];
 
