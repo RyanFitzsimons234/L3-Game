@@ -30,7 +30,7 @@ export class Fighter {
         this.currentState = newState;
         this.animationFrame = 0;
 
-        this.states[this.currentState].init (); 
+        this.states[this.currentState].init(); 
 }
 
     handleWalkForwardInit () {
