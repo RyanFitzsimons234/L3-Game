@@ -23,14 +23,14 @@ export class Fighter {
             },
         }
 
-        this.changeState(FighterState.WALK_FORWARD);
+        this.changeState(FighterState.WALK_BACKWARD);
     }
 
     changeState = (newState) => {
         this.currentState = newState;
         this.animationFrame = 0;
 
-        this.states[this.currentState].init (); 
+        this.states[this.currentState].init(); 
 }
 
     handleWalkForwardInit () {
