@@ -27,12 +27,12 @@ function handleFormSubmit(event, fighters) {
 
     fighters.forEach(fighter => {
         if (selectedCheckboxes.includes(fighter.name)) {
-            fighter.changeState(options.valve)
+            fighter.changeState(options.value)
         }
     });
 }
 
-window.addEventListener  ('load', function() {
+window.addEventListener('load', function() {
     populateMoveDropdown();
 
     const canvasEL = document.querySelector('canvas');
@@ -72,7 +72,7 @@ window.addEventListener  ('load', function() {
             entity.draw(context);
         }
     }
-
+ 
     this.document.addEventListener('submit', (event) => handleFormSubmit(event, fighters));
 
     window.requestAnimationFrame(frame);
