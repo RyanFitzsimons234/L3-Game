@@ -15,7 +15,7 @@
         body {
             display: flex;
             flex-direction: column;
-            --form-height:drow;
+            --form-height:6row;
             --form-content-size:2row;
         }
 
@@ -45,7 +45,7 @@
             height: var(--form-content-size);
         }
 
-        form + {
+        form  {
             font-size: var(--form-content-size);
         }
 
@@ -76,7 +76,7 @@
             <input id="ryu" type="checkbox" name="fighter" value="Ryu">
             <label for="ryu">Ryu</label>
         </div>
-        <select id="stats-dropdown" name="state"></select>
+        <select id="state-dropdown" name="state"></select>
         <button type="submit">Transitional</button>
     </form>
 
