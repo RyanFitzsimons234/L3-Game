@@ -23,7 +23,7 @@ export class Fighter {
             },
         }
 
-        this.changeState(FighterState.WALK_BACKWARD);
+        this.changeState(FighterState.WALK_FORWARD);
     }
 
     changeState = (newState) => {
