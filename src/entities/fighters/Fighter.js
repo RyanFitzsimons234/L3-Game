@@ -5,7 +5,7 @@ export class Fighter {
     constructor(name, x, y, direction) {
         this.name = name;
         this.position = { x, y };
-        this.velocity = {x: 0, y: 0};
+        this.velocity = {x: 0, y: 0,};
         this.initialVelocity = {};
         this.direction = direction;
         this.gravity = 0;
@@ -23,16 +23,24 @@ export class Fighter {
                 update: this.handleWalkIdleState.bind(this),
             },
             [FighterState.WALK_FORWARD]:{
-                init: this.handleWalkForwardInit.bind(this),
-                update: this.handleWalkForwardState.bind(this),
+                init: this.handleMoveInit.bind(this),
+                update: this.handleMoveState.bind(this),
             },
             [FighterState.WALK_BACKWARD]:{
-                init: this.handleWalkBackwardsInit.bind(this),
-                update: this.handleWalkBackwardsState.bind(this),
+                init: this.handleMoveInit.bind(this),
+                update: this.handleMoveState.bind(this),
             },
             [FighterState.JUMP_UP]:{
-                init: this.handleJumpUpInit.bind(this),
-                update: this.handleJumpUpState.bind(this),
+                init: this.handleJumpInit.bind(this),
+                update: this.handleJumpState.bind(this),
+            },
+            [FighterState.JUMP_FORWARD]:{
+                init: this.handleJumpInit.bind(this),
+                update: this.handleJumpState.bind(this),
+            },
+            [FighterState.JUMP_BAKCWARD]:{
+                init: this.handleJumpInit.bind(this),
+                update: this.handleJumpState.bind(this),
             },
         }
 
@@ -55,27 +63,20 @@ export class Fighter {
 
     }
 
-    handleWalkForwardInit () {
-        this.velocity.x = 150 * this.direction;
+    handleMoveInit () { 
+        this.velocity.x = this.initialVelocity.x[this.currentState] ?? 0;
     }
 
-    handleWalkForwardState () {
-
-    }
-
-    handleWalkBackwardsInit () {
-        this.velocity.x = -150 * this.direction;
-    }
-
-    handleWalkBackwardsState () {
+    handleMoveState () {
 
     }
 
-    handleJumpUpInit () {
+    handleJumpInit () {
         this.velocity.y = this.initialVelocity.jump;
+        this.handleMoveInit();
     }
 
-    handleJumpUpState (time) {
+    handleJumpState (time) {
         this.velocity.y += this.gravity *time.secondsPassed;
 
         if(this.position.y > STAGE_FLOOR) {
@@ -114,7 +115,7 @@ export class Fighter {
 }
 
     update(time, context) {
-        this.position.x += this.velocity.x * time.secondsPassed;
+        this.position.x += (this.velocity.x * this.direction) * time.secondsPassed;
         this.position.y += this.velocity.y * time.secondsPassed;
 
         this.states[this.currentState].update(time, context);
