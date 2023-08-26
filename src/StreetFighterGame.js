@@ -4,13 +4,14 @@ import { Stage } from './entities/Stage.js';
 import { FpsCounter } from './entities/FpsCounter.js';
 import { STAGE_FLOOR } from './constants/stage.js';
 import { FighterDirection} from './constants/fighter.js';
+import { registerKeyboardEvents } from './InputHandler.js';
 
 export class StreetFighterGame {
     constructor() {
         this.context = this.getContext();
         this.fighters = [
-            new Ryu(104, STAGE_FLOOR, FighterDirection.RIGHT),
-            new Ken(280, STAGE_FLOOR, FighterDirection.LEFT),
+            new Ryu(104, STAGE_FLOOR, FighterDirection.RIGHT, 1),
+            new Ken(280, STAGE_FLOOR, FighterDirection.LEFT, 0),
         ]
 
         this.entities = [
@@ -59,23 +60,8 @@ export class StreetFighterGame {
         this.draw();
     }
 
-    handleFormSubmit(event) {
-        event.preventDefault();
-
-        const selectedCheckboxes = Array
-            .from(event.target.querySelectorAll('input:checked'))
-            .map(checkbox => checkbox.value);
-
-        const options = event.target.querySelector('select');
-
-        this.fighters.forEach(fighter => {
-            if (selectedCheckboxes.includes(fighter.name)) {
-                fighter.changeState(options.value)
-            }
-        });
-    }
     start() {
-        document.addEventListener('submit', this.handleFormSubmit.bind(this));
+        registerKeyboardEvents(); 
 
         window.requestAnimationFrame(this.frame.bind(this));
     }
