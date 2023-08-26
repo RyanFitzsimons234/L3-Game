@@ -108,17 +108,19 @@ export class Fighter {
     }
 
     handleIdleState () {
-        // if (control.isUp(this.playerId)) {
+        if (control.isUp(this.playerId)) this.changeState(FighterState.JUMP_UP);
         if (control.isBackward(this.playerId, this.direction)) this.changeState(FighterState.WALK_BACKWARD);
         if (control.isForward(this.playerId, this.direction)) this.changeState(FighterState.WALK_FORWARD);
     }
 
     handleWalkForwardState () {
         if (!control.isForward(this.playerId, this.direction)) this.changeState(FighterState.IDLE);
+        if (control.isUp(this.playerId)) this.changeState(FighterState.JUMP_FORWARD);
     }
 
     handleWalkBackwardsState () {
         if (!control.isBackward(this.playerId, this.direction)) this.changeState(FighterState.IDLE);
+        if (control.isUp(this.playerId)) this.changeState(FighterState.JUMP_BAKCWARD);
     }
 
     handleCrouchDownState() {
