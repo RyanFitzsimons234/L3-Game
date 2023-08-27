@@ -1,4 +1,4 @@
-import { FighterState } from "../../constants/fighter.js";
+import { FighterDirection, FighterState } from "../../constants/fighter.js";
 import { STAGE_FLOOR } from "../../constants/stage.js";
 import * as control from "../../InputHandler.js";
 
@@ -18,6 +18,8 @@ export class Fighter {
         this.animations = {};
 
         this.image = new Image();
+
+        this.opponent;
 
         this.states = {
             [FighterState.IDLE]:{
@@ -93,6 +95,9 @@ export class Fighter {
 
         this.changeState(FighterState.IDLE);
     }
+
+    getDirection = () => this.position.x >= this.opponent.position.x
+    ? FighterDirection.LEFT : FighterDirection.RIGHT;
 
     changeState (newState) {
         if (newState === this.currentState
@@ -232,6 +237,13 @@ export class Fighter {
     update(time, context) {
         this.position.x += (this.velocity.x * this.direction) * time.secondsPassed;
         this.position.y += this.velocity.y * time.secondsPassed;
+
+        if (
+            [FighterState.IDLE, FighterState.WALK_FORWARD, FighterState.WALK_BACKWARD]
+            .includes(this.currentState)
+        ) {
+        this.direction = this.getDirection();
+        }
 
         this.states[this.currentState].update(time, context);
         this.updateAnimation(time);
