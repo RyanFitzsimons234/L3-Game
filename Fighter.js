@@ -232,6 +232,12 @@ export class Fighter {
         if(this.animations[this.currentState][this.animationFrame][1] === -2) {
             this.changeState(FighterState.CROUCH);
         }
+
+        if (!control.isDown(this.playerId)) {
+            this.currentState = FighterState.CROUCH_UP;
+            this.animationFrame = this.animations[FighterState.CROUCH_UP][this.animationFrame].length
+            - this.animationFrame;
+        }
     }
 
     handleCrouchUpState() {
@@ -351,13 +357,6 @@ export class Fighter {
     update(time, context) {
         this.position.x += (this.velocity.x * this.direction) * time.secondsPassed;
         this.position.y += this.velocity.y * time.secondsPassed;
-
-        if (
-            [FighterState.IDLE, FighterState.WALK_FORWARD, FighterState.WALK_BACKWARD]
-            .includes(this.currentState)
-        ) {
-        this.direction = this.getDirection();
-        }
 
         this.states[this.currentState].update(time, context);
         this.updateAnimation(time);
