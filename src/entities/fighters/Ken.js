@@ -16,7 +16,7 @@ export class Ken extends Fighter {
 
             // Moves Forwards
             ['forwards-1', [[[8, 872, 53, 83], [27, 81]], PushBox.IDLE]],
-            ['forwards-2', [[[70, 867, 60, 88], [35, 86], PushBox.IDLE]]],
+            ['forwards-2', [[[70, 867, 60, 88], [35, 86]], PushBox.IDLE]],
             ['forwards-3', [[[140, 866, 64, 90], [35, 87]], PushBox.IDLE]],
             ['forwards-4', [[[215, 865, 63, 89], [29, 88]], PushBox.IDLE]],
             ['forwards-5', [[[288, 866, 54, 89], [25, 87]], PushBox.IDLE]],
