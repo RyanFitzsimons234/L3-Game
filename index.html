@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Street Fighter</title>
-        <style>
-            html, 
-            body{
-                padding: 0;
-                margin: 0;
-            }
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Street Fighter</title>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100;
+        }
 
-            body{
-                background-color: black;
-            }
+        body {
+            display: flex;
+        }
 
-            canvas {
-                background-color: yellow;
-            }
-        </style>
-        <!-- <script defer src="./index.js"></script> -->
+        body,
+        canvas {
+            background-color: black;
+        }
 
-    </head>
-    <body>
-        <canvas></canvas>
-    </body>
+        canvas {
+            width: 100%;
+            object-fit: contain;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+
+        img {
+            display: none;
+        }
+
+    </style>
+    <script type="module" src="./src/index.js"></script>
+</head>
+<body>
+        <canvas width="384" height="224"></canvas>
+    <img src="./images/ryu.png" alt="ryu">
+    <img src="./images/ken.png" alt="ken"/>
+    <img src="./images/shadow.png" alt="shadow"/>
+    <img src="./images/background.png" alt="background"/>
+</body>
 </html>
