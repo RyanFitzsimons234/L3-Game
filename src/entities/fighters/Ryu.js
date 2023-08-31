@@ -30,14 +30,6 @@ export class Ryu extends Fighter {
             ['backwards-5', [[[631, 125, 58, 91], [36, 88]], PushBox.IDLE]],
             ['backwards-6', [[[707, 126, 57, 89], [36, 87]], PushBox.IDLE]],
 
-            // Moves Backwards
-            ['jump-up-1', [[[67, 244, 56, 104], [32, 107]], PushBox.JUMP]],
-            ['jump-up-2', [[[138, 233, 50, 89], [25, 103]], PushBox.JUMP]],
-            ['jump-up-3', [[[197, 233, 54, 77], [25, 103]], PushBox.JUMP]],
-            ['jump-up-4', [[[259, 248, 48, 70], [28, 101]], PushBox.JUMP]],
-            ['jump-up-5', [[[319, 234, 48, 89], [25, 106]], PushBox.JUMP]],
-            ['jump-up-6', [[[375, 244, 55, 109], [31, 113]], PushBox.JUMP]],
-
             // Jumps forwards/backwards
             ['jump-roll-1', [[[882, 261, 55, 109], [31, 113]], PushBox.JUMP]],
             ['jump-roll-2', [[[442, 261, 61, 78], [22, 90]], PushBox.JUMP]],
@@ -46,6 +38,14 @@ export class Ryu extends Fighter {
             ['jump-roll-5', [[[676, 257, 122, 44], [71, 81]], PushBox.JUMP]],
             ['jump-roll-6', [[[804, 258, 71, 87], [53, 98]], PushBox.JUMP]],
             ['jump-roll-7', [[[883, 261, 54, 109], [31, 113]], PushBox.JUMP]],
+
+            // Jump Up
+            ['jump-up-1', [[[67, 244, 56, 104], [32, 107]], PushBox.JUMP]],
+            ['jump-up-2', [[[138, 233, 50, 89], [25, 103]], PushBox.JUMP]],
+            ['jump-up-3', [[[197, 233, 54, 77], [25, 103]], PushBox.JUMP]],
+            ['jump-up-4', [[[259, 248, 48, 70], [28, 101]], PushBox.JUMP]],
+            ['jump-up-5', [[[319, 234, 48, 89], [25, 106]], PushBox.JUMP]],
+            ['jump-up-6', [[[375, 244, 55, 109], [31, 113]], PushBox.JUMP]],
 
             // Jump first/last frame
             ['jump-land', [[[7, 268, 55, 85], [29, 83]], PushBox.IDLE]],
