@@ -120,10 +120,10 @@ export class Ken extends Fighter {
 
         this.initialVelocity = {
             x: {
-                [FighterState.WALK_FORWARD]: 3 * 60,
-                [FighterState.WALK_BACKWARD]: -(2 * 60),
-                [FighterState.JUMP_FORWARD]: ((48 * 3) + (12 * 2)),
-                [FighterState.JUMP_BAKCWARD]: -((45 * 4) + (15 * 3)),
+                [FighterState.WALK_FORWARD]: 3 * 60 * 1.1,
+                [FighterState.WALK_BACKWARD]: -(2 * 60)* 1.1,
+                [FighterState.JUMP_FORWARD]: ((48 * 3) + (12 * 2))* 1.1,
+                [FighterState.JUMP_BAKCWARD]: -((45 * 4) + (15 * 3))* 1.1,
             },
             jump: -420,
         };
