@@ -1,3 +1,5 @@
+import { drawFrame } from "../utils/context.js";
+
 export class Stage {
     constructor() {
         this.image = document.querySelector('img[alt="stage"]');
@@ -12,13 +14,7 @@ export class Stage {
     update(){ }
 
     drawFrame(context, frameKey, x, y) {
-        const [sourceX, sourceY, sourceWidth, sourceHeight] = this.frames.get(frameKey);
-
-        context.drawImage(
-            this.image,
-            sourceX, sourceY, sourceWidth, sourceHeight,
-            x, y, sourceWidth, sourceHeight,
-        );
+        drawFrame(context, this.image, this.frames.get(frameKey), x, y);
     }
 
     draw(context, camera) {
