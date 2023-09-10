@@ -11,6 +11,6 @@ export class FpsCounter {
         context.font = '14 px Arial';
         context.fillStyle = '#00FF00';
         context.textAlign = 'right';
-        context.fillText(`${this.fps}`, context.canvas.width -2, context.canvas.height -2);
+        context.fillText(`FPS:${this.fps}`, context.canvas.width -2, context.canvas.height -2);
     }
 }
