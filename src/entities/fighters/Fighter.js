@@ -8,7 +8,7 @@ export class Fighter {
         this.name = name;
         this.playerId = playerId;
         this.position = { 
-            x: STAGE_MID_POINT + STAGE_PADDING + (playerId === 0 ? -FIGHTER_START_DISTANCE : FIGHTER_START_DISTANCE), 
+            x: STAGE_MID_POINT + STAGE_PADDING + (playerId === 0 ? FIGHTER_START_DISTANCE : -FIGHTER_START_DISTANCE), 
             y: STAGE_FLOOR 
         };
         this.velocity = {x: 0, y: 0,};
