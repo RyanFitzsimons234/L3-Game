@@ -64,6 +64,18 @@ export class Ken extends Fighter {
             ['crouch-turn-1',[[[356, 802, 53, 61], [26, 58]], PushBox.CROUCH]],
             ['crouch-turn-2',[[[424, 802, 52, 61], [27, 58]], PushBox.CROUCH]],
             ['crouch-turn-3',[[[486, 802, 53, 61], [29, 58]], PushBox.CROUCH]],
+
+            // Light Punch
+            ['light-punch-1',[[[3, 1152, 64, 91], [32, 88]], PushBox.IDLE]],
+            ['light-punch-2',[[[72, 1152, 92, 91], [32, 88]], PushBox.IDLE]],
+            
+            // Medium/Heavy Punch
+            ['med-punch-1',[[[517, 1149, 60, 94], [28, 91]], PushBox.IDLE]],
+            ['med-punch-2',[[[650, 1148, 74, 95], [29, 92]], PushBox.IDLE]],
+            ['med-punch-3',[[[736, 1140, 108, 94], [24, 92]], PushBox.IDLE]],
+
+            // Heavy Punch
+            ['heavy-punch-1',[[[736, 1148, 108, 94], [24, 92]], PushBox.IDLE]],
         ]);
 
         this.animations = { 
@@ -116,14 +128,28 @@ export class Ken extends Fighter {
                 ['crouch-turn-3', 33], ['crouch-turn-2', 33],
                 ['crouch-turn-1', 33], ['crouch-turn-1', FrameDelay.TRANSITION],
             ],
+            [FighterState.LIGHT_PUNCH]: [
+                ['light-punch-1', 33], ['light-punch-2', 66],
+                ['light-punch-1', 66], ['light-punch-1', FrameDelay.TRANSITION],
+            ],
+            [FighterState.MEDIUM_PUNCH]: [
+                ['med-punch-1', 16], ['med-punch-2', 33], ['med-punch-3', 66], 
+                ['med-punch-2', 50], ['med-punch-1', 50],
+                ['med-punch-1', FrameDelay.TRANSITION],
+            ],
+            [FighterState.HEAVY_PUNCH]: [
+                ['med-punch-1', 50], ['med-punch-2', 33], ['heavy-punch-1', 100], 
+                ['med-punch-2', 166], ['med-punch-1', 199],
+                ['med-punch-1', FrameDelay.TRANSITION],
+            ],
         };
 
         this.initialVelocity = {
             x: {
-                [FighterState.WALK_FORWARD]: 3 * 60 * 1.1,
-                [FighterState.WALK_BACKWARD]: -(2 * 60)* 1.1,
-                [FighterState.JUMP_FORWARD]: ((48 * 3) + (12 * 2))* 1.1,
-                [FighterState.JUMP_BAKCWARD]: -((45 * 4) + (15 * 3))* 1.1,
+                [FighterState.WALK_FORWARD]: 3 * 60,
+                [FighterState.WALK_BACKWARD]: -(2 * 60),
+                [FighterState.JUMP_FORWARD]: ((48 * 3) + (12 * 2)),
+                [FighterState.JUMP_BAKCWARD]: -((45 * 4) + (15 * 3)),
             },
             jump: -420,
         };

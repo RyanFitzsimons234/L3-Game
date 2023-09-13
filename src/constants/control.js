@@ -9,6 +9,12 @@ export const Control = {
     RIGHT: 'right',
     UP: 'up',
     DOWN: 'down',
+    LIGHT_PUNCH: 'lightPunch',
+    MEDIUM_PUNCH: 'mediumPunch',
+    HEAVY_PUNCH: 'heavyPunch',
+    LIGHT_KICK: 'lightKick',
+    MEDIUM_KICK: 'mediumKick',
+    HEAVY_KICK: 'heavyKick',
 };
 
 export const controls = [
@@ -22,26 +28,43 @@ export const controls = [
             [Control.RIGHT]: 15,
             [Control.UP]: 12,
             [Control.DOWN]: 13,
+            [Control.LIGHT_PUNCH]: 2,
+            [Control.MEDIUM_PUNCH]: 3,
+            [Control.HEAVY_PUNCH]: 5,
         },
         keyboard: {
             [Control.LEFT]: 'ArrowLeft',
             [Control.RIGHT]: 'ArrowRight',
             [Control.UP]: 'ArrowUp',
             [Control.DOWN]: 'ArrowDown',
+            [Control.LIGHT_PUNCH]: 'Slash',
+            [Control.MEDIUM_PUNCH]: 'Period',
+            [Control.HEAVY_PUNCH]: 'Comma',
         },
     },
     {
+        
         gamePad: {
+            [GamepadThumbstick.DEAD_ZONE] : 0.5,
+            [GamepadThumbstick.HORIZONTAL_AXE_ID] : 0,
+            [GamepadThumbstick.VERTICAL_AXE_ID] : 1,
+
             [Control.LEFT]: 14,
             [Control.RIGHT]: 15,
             [Control.UP]: 12,
             [Control.DOWN]: 13,
+            [Control.LIGHT_PUNCH]: 2,
+            [Control.MEDIUM_PUNCH]: 3,
+            [Control.HEAVY_PUNCH]: 5,
         },
         keyboard: {
             [Control.LEFT]: 'KeyD',
             [Control.RIGHT]: 'KeyG',
             [Control.UP]: 'KeyR',
             [Control.DOWN]: 'KeyF',
+            [Control.LIGHT_PUNCH]: 'KeyQ',
+            [Control.MEDIUM_PUNCH]: 'KeyW',
+            [Control.HEAVY_PUNCH]: 'KeyE',
         },
     },
 ];
