@@ -475,6 +475,30 @@ export class Fighter {
         this.updateStageConstraints(time, context, camera);
     }
 
+    drawDebugBox(context, camera, dimensions, baseColor) {
+        if(!Array.isArray(dimensions)) return;
+
+        const [x = 0, y = 0, width = 0, height = 0] = dimensions;
+
+        context.beginPath();
+        context.strokeStyle = baseColor + 'AA';
+        context.fillStyle = baseColor + '44';
+        context.fillRect(
+            Math.floor(this.position.x + (x * this.direction) - camera.position.x) + 0.5,
+            Math.floor(this.position.y + y - camera.position.y) + 0.5,
+            width * this.direction,
+            height,
+        );
+
+        context.rect(
+            Math.floor(this.position.x + (x * this.direction) - camera.position.x) + 0.5,
+            Math.floor(this.position.y + y - camera.position.y) + 0.5,
+            width * this.direction,
+            height,
+        );
+        context.stroke();    
+    }
+
     drawDebug(context, camera){
         const [frameKey] = this.animations[this.currentState][this.animationFrame];
         const boxes = this.getBoxes(frameKey);
@@ -482,23 +506,12 @@ export class Fighter {
         context.lineWidth = 1;
 
         // Push Box
-        context.beginPath();
-        context.strokeStyle = '#55FF55';
-        context.fillStyle = '#55FF5555';
-        context.fillRect(
-            Math.floor(this.position.x + (boxes.push.x * this.direction) - camera.position.x) + 0.5,
-            Math.floor(this.position.y + boxes.push.y - camera.position.y) + 0.5,
-            boxes.push.width * this.direction,
-            boxes.push.height,
-        );
+        this.drawDebugBox(context, camera, Object.values(boxes.push), '#55FF55');
 
-        context.rect(
-            Math.floor(this.position.x + (boxes.push.x * this.direction) - camera.position.x) + 0.5,
-            Math.floor(this.position.y + boxes.push.y - camera.position.y) + 0.5,
-            boxes.push.width * this.direction,
-            boxes.push.height,
-        );
-        context.stroke();    
+        // Hurt Boxes
+        for (const hurtBox of boxes.hurt) {
+            this.drawDebugBox(context, camera, hurtBox, '#7777FF');
+        }
 
         // Origin
         context.beginPath();
