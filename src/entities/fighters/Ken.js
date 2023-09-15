@@ -66,7 +66,7 @@ export class Ken extends Fighter {
 
             // Light Punch
             ['light-punch-1',[[[3, 1152, 64, 91], [32, 88]], PushBox.IDLE, HurtBox.IDLE]],
-            ['light-punch-2',[[[72, 1152, 92, 91], [32, 88]], PushBox.IDLE, HurtBox.IDLE]],
+            ['light-punch-2',[[[72, 1152, 92, 91], [32, 88]], PushBox.IDLE, HurtBox.IDLE, [11, -85, 50, 18]]],
             
             // Medium/Heavy Punch
             ['med-punch-1',[[[517, 1149, 60, 94], [28, 91]], PushBox.IDLE, HurtBox.IDLE]],
