@@ -1,4 +1,5 @@
-import { TIME_DELAY, TIME_FLASH_DELAY, TIME_FRAME_KEYS } from "../../constants/battle.js";
+import { HEALTH_CRITICAL_HIT_POINTS, HEALTH_DAMAGE_COLOR, HEALTH_MAX_HIT_POINTS, KO_ANIMATION, KO_FLASH_DELAY, TIME_DELAY, TIME_FLASH_DELAY, TIME_FRAME_KEYS } from "../../constants/battle.js";
+import { FPS } from "../../constants/game.js";
 import { gameState } from "../../state/gameState.js";
 import { drawFrame } from "../../utils/context.js";
 export class StatusBar {
@@ -10,10 +11,22 @@ export class StatusBar {
         this.timeFlashTimer = 0;
         this.useFlashFrames = false;
 
+        this.healthBars = [{
+            timer: 0,
+            hitPoints: HEALTH_MAX_HIT_POINTS,
+        }, {
+            timer: 0,
+            hitPoints: HEALTH_MAX_HIT_POINTS,
+        }];
+
+        this.koFrame = 0;
+        this.koAnimationTimer = 0;
+
         this.frames = new Map ([
             ['health-bar', [16, 18, 145, 11]],
 
             ['ko-white', [161, 16, 32, 14]],
+            ['ko-red', [161, 1, 32, 14 ]],
 
             [`${TIME_FRAME_KEYS[0]}-0`, [16, 32, 14, 16]],
             [`${TIME_FRAME_KEYS[0]}-1`, [32, 32, 14, 16]],
@@ -90,17 +103,35 @@ export class StatusBar {
         if (time.previous > this.timeTimer + TIME_DELAY) {
             this.time -= 1;
             this.timeTimer = time.previous;
+        }
+
+        if (
+            this.time < 15 && this.time > -1 && time.previous > this.timeFlashTimer + TIME_FLASH_DELAY
+        ) {
+            this.useFlashFrames = !this.useFlashFrames;
+            this.timeFlashTimer = time.previous;
+        }
     }
 
-    if (
-        this.time < 15 && this.time > -1 && time.previous > this.timeFlashTimer + TIME_FLASH_DELAY
-    ) {
-        this.useFlashFrames = !this.useFlashFrames;
-        this.timeFlashTimer = time.previous;
+    updateHealthBars(time) {
+        for (const index in this.healthBars) {
+            if (this.healthBars[index].hitPoints <= gameState.fighters[index].hitPoints) continue;
+            this.healthBars[index].hitPoints = Math.max(0, this.healthBars[index].hitPoints - (time.secondsPassed * FPS));
+        }
     }
-}
+
+    updateKoIcon(time) {
+        if(this.healthBars.every((healthBar) => healthBar.hitPoints > HEALTH_CRITICAL_HIT_POINTS)) return;
+        if (time.previous < this.koAnimationTimer + KO_FLASH_DELAY[this.koFrame]) return;
+
+        this.koFrame = 1 - this.koFrame;
+        this.koAnimationTimer = time.previous;
+    }
+
     update(time) {
         this.updateTime(time);
+        this.updateHealthBars(time);
+        this.updateKoIcon(time);
     }
 
     drawFrame(context, frameKey, x, y, direction = 1) {
@@ -109,8 +140,21 @@ export class StatusBar {
 
     drawHealthBars(context) {
         this.drawFrame(context, 'health-bar', 31, 20);
-        this.drawFrame(context, 'ko-white', 176, 18);
+        this.drawFrame(context, KO_ANIMATION[this.koFrame], 176, 18 - this.koFrame);
         this.drawFrame(context, 'health-bar', 353, 20, -1);
+
+        context.fillStyle = HEALTH_DAMAGE_COLOR;
+
+        context.beginPath();
+        context.fillRect(
+            32, 21,
+            HEALTH_MAX_HIT_POINTS - Math.floor(this.healthBars[0].hitPoints), 9,
+        );
+
+        context.fillRect(
+            208 + Math.floor(this.healthBars[1].hitPoints), 21,
+            HEALTH_MAX_HIT_POINTS - Math.floor(this.healthBars[1].hitPoints), 9,
+        );
     }
 
     drawNameTags(context) {
@@ -145,13 +189,13 @@ export class StatusBar {
 
     drawScores(context){
         this.drawScoreLabel(context, `P1`, 4)
-        this.drawScore(context, 1, 45);
+        this.drawScore(context, gameState.fighters[0].score, 45);
 
         this.drawScoreLabel(context, `ANT`, 133);
         this.drawScore(context, 50000, 177);
 
         this.drawScoreLabel(context, `P2`, 269)
-        this.drawScore(context, 1, 309); 
+        this.drawScore(context, gameState.fighters[1].score, 309); 
     }
 
     draw (context) {
