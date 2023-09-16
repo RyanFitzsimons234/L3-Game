@@ -6,45 +6,37 @@ import {
     FrameDelay, 
     PUSH_FRICTION, 
     FighterAttackStrength,
-    FighterAttackBaseData
     } from "../../constants/fighter.js";
 import { FRAME_TIME } from "../../constants/game.js";
 import { STAGE_FLOOR, STAGE_MID_POINT, STAGE_PADDING } from "../../constants/stage.js";
 import * as control from "../../engine/InputHandler.js";
 import { gameState } from "../../state/gameState.js";
 import { rectsOverlap, boxOverlap, getActualBoxDimensions } from "../../utils/collisions.js";
+import { DEBUG_drawCollisionInfo } from "../../utils/fighterDebug.js";
 
 export class Fighter {
-    constructor(playerId, onAttackHit) {
-        this.playerId = playerId;
-        this.position = { 
-            x: STAGE_MID_POINT + STAGE_PADDING + (playerId === 0 ? -FIGHTER_START_DISTANCE : FIGHTER_START_DISTANCE), 
-            y: STAGE_FLOOR 
-        };
-        this.velocity = {x: 0, y: 0,};
-        this.initialVelocity = {};
-        this.direction = playerId === 0 ? FighterDirection.RIGHT : FighterDirection.LEFT;
-        this.gravity = 0;
+        velocity = {x: 0, y: 0,};
+        initialVelocity = {};
+        gravity = 0;
 
-        this.attackStruck = false;
+        attackStruck = false;
 
-        this.frames = new Map();
-        this.animationFrame = 0;
-        this.animationTimer = 0;
-        this.animations = {};
+        frames = new Map();
+        animationFrame = 0;
+        animationTimer = 0;
+        animations = {};
 
-        this.image = new Image();
+        image = new Image();
 
-        this.opponent;
-        this.onAttackHit = onAttackHit;
+        opponent = undefined;
 
-        this.boxes = {
+        boxes = {
             push: { x: 0, y: 0, width: 0, height: 0 },
             hurt: [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]],
             hit: { x: 0, y: 0, width: 0, height: 0 },
         };
 
-        this.states = {
+        states = {
             [FighterState.IDLE]:{
                 init: this.handleIdleInit.bind(this),
                 update: this.handleIdleState.bind(this),
@@ -172,6 +164,17 @@ export class Fighter {
                 validFrom: [FighterState.IDLE, FighterState.WALK_FORWARD, FighterState.WALK_BACKWARD],
             },
         };
+
+        constructor(playerId, onAttackHit) {
+            this.playerId = playerId;
+            this.onAttackHit = onAttackHit;
+
+            this.position = { 
+                x: STAGE_MID_POINT + STAGE_PADDING + (playerId === 0 ? -FIGHTER_START_DISTANCE : FIGHTER_START_DISTANCE), 
+                y: STAGE_FLOOR 
+            };
+
+            this.direction = playerId === 0 ? FighterDirection.RIGHT : FighterDirection.LEFT;
 
         this.changeState(FighterState.IDLE);
     }
@@ -566,68 +569,7 @@ export class Fighter {
         this.updateAttackBoxCollided(time);
     }
 
-    drawDebugBox(context, camera, dimensions, baseColor) {
-        if(!Array.isArray(dimensions)) return;
 
-        const [x = 0, y = 0, width = 0, height = 0] = dimensions;
-
-        context.beginPath();
-        context.strokeStyle = baseColor + 'AA';
-        context.fillStyle = baseColor + '44';
-        context.fillRect(
-            Math.floor(this.position.x + (x * this.direction) - camera.position.x) + 0.5,
-            Math.floor(this.position.y + y - camera.position.y) + 0.5,
-            width * this.direction,
-            height,
-        );
-
-        context.rect(
-            Math.floor(this.position.x + (x * this.direction) - camera.position.x) + 0.5,
-            Math.floor(this.position.y + y - camera.position.y) + 0.5,
-            width * this.direction,
-            height,
-        );
-        context.stroke();    
-    }
-
-    drawDebug(context, camera){
-        const [frameKey] = this.animations[this.currentState][this.animationFrame];
-        const boxes = this.getBoxes(frameKey);
-
-        context.lineWidth = 1;
-
-        // Push Box
-        this.drawDebugBox(context, camera, Object.values(boxes.push), '#55FF55');
-
-        // Hurt Boxes
-        for (const hurtBox of boxes.hurt) {
-            this.drawDebugBox(context, camera, hurtBox, '#7777FF');
-        }
-
-        // Hit Box
-        this.drawDebugBox(context, camera, Object.values(boxes.hit), '#FF0000');
-
-        // Origin
-        context.beginPath();
-        context.strokeStyle = 'white';
-        context.moveTo(
-            Math.floor(this.position.x - camera.position.x) - 4, 
-            Math.floor(this.position.y - camera.position.y) - 0.5
-        );
-        context.lineTo(
-            Math.floor(this.position.x - camera.position.x) + 5, 
-            Math.floor(this.position.y - camera.position.y) - 0.5
-            );
-        context.moveTo(
-            Math.floor(this.position.x - camera.position.x) + 0.5, 
-            Math.floor(this.position.y - camera.position.y) - 5
-            );
-        context.lineTo(
-            Math.floor(this.position.x - camera.position.x) + 0.5, 
-            Math.floor(this.position.y - camera.position.y) + 4
-            );
-        context.stroke();
-    }
 
     draw(context, camera) {
         const [frameKey] = this.animations[this.currentState][this.animationFrame]
@@ -646,6 +588,6 @@ export class Fighter {
              width, height);
         context.setTransform( 1, 0, 0, 1, 0, 0);
 
-        this.drawDebug(context, camera);
+        DEBUG_drawCollisionInfo(this, context, camera);
     }
 };
