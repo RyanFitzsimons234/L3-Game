@@ -1,5 +1,2 @@
-import { StreetFighterGame } from './StreetFighterGame.js';
-
-window.addEventListener('load', function() {
-    new StreetFighterGame().start();
-});
+export { Ryu } from './Ryu.js';
+export { Ken } from './Ken.js';
