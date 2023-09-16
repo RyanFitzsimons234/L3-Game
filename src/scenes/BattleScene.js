@@ -1,14 +1,12 @@
 import { Camera } from '../engine/Camera.js';
-import { Ken } from '../entities/fighters/Ken.js';
-import { Ryu } from '../entities/fighters/Ryu.js';
-import { Shadow } from '../entities/fighters/Shadow.js';
+import { Ken, Ryu } from '../entities/fighters/index.js';
 import { KenStage } from '../entities/stage/KenStage.js';
 import { StatusBar } from '../entities/overlays/StatusBar.js';
 import { FpsCounter } from '../entities/overlays/FpsCounter.js';
 import { STAGE_MID_POINT, STAGE_PADDING } from '../constants/stage.js';
 import { gameState } from '../state/gameState.js';
 import { FighterAttackBaseData, FighterAttackStrength, FighterId } from '../constants/fighter.js';
-import { LightHitSplash, MediumHitSplash, HeavyHitSplash } from '../entities/fighters/shared/index.js';
+import { LightHitSplash, MediumHitSplash, HeavyHitSplash, Shadow } from '../entities/fighters/shared/index.js';
 
 export class BattleScene {
     fighters = [];
@@ -19,14 +17,12 @@ export class BattleScene {
     constructor() {
         this.stage = new KenStage();
 
-        this.fighters = this.getFighterEntities();
-        this.camera = new Camera(STAGE_MID_POINT + STAGE_PADDING - 192, 16, this.fighters);
-        this.shadows = this.fighters.map(fighter => new Shadow(fighter))
-
         this.overlays = [
-            new StatusBar (this.fighters),
+            new StatusBar (this.state),
             new FpsCounter(),
         ];
+
+        this.startRound();
     }
 
     getFighterEntityClass(id) {
@@ -81,6 +77,12 @@ export class BattleScene {
         gameState.fighters[opponentId].hitPoints -= FighterAttackBaseData[strength].damage;
 
         this.addEntity(this.getHitSplashClass(strength), position.x, position.y, playerId);
+    }
+
+    startRound() {
+        this.fighters = this.getFighterEntities();
+        this.camera = new Camera(STAGE_MID_POINT + STAGE_PADDING - 192, 16, this.fighters);
+        this.shadows = this.fighters.map(fighter => new Shadow(fighter))
     }
 
     updateFighters(time, context) {
