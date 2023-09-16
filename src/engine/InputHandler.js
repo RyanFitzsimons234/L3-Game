@@ -1,4 +1,5 @@
-import { Control, GamepadThumbstick, controls } from "../constants/control.js";
+import { Control, GamepadThumbstick } from "../constants/control.js";
+import { controls } from "../config/control.js";
 import { FighterDirection } from "../constants/fighter.js";
 
 const heldKeys = new Set();
