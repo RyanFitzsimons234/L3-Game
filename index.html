@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta tags for character encoding and responsive design -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Street Fighter</title>
+
+    <!-- Internal CSS styles -->
     <style>
+        /* Resetting default margin, padding, and full height */
         html,
         body {
             padding: 0;
@@ -12,15 +16,18 @@
             height: 100;
         }
 
+        /* Creating a flex container for body */
         body {
             display: flex;
         }
 
+        /* Setting a black background for body and canvas */
         body,
         canvas {
             background-color: black;
         }
 
+        /* Styling the canvas element */
         canvas {
             width: 100%;
             object-fit: contain;
@@ -28,15 +35,19 @@
             image-rendering: pixelated;
         }
 
+        /* Hiding all img elements */
         img {
             display: none;
         }
-
     </style>
+    <!-- Including JavaScript code from an external module -->
     <script type="module" src="./src/index.js"></script>
 </head>
 <body>
-        <canvas width="384" height="224"></canvas>
+    <!-- Canvas element for rendering the game -->
+    <canvas width="384" height="224"></canvas>
+
+    <!-- Hidden images used for the game assets -->
     <img src="./images/ryu.png" alt="ryu">
     <img src="./images/ken.png" alt="ken"/>
     <img src="./images/decals.png" alt="decals"/>
