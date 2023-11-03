@@ -12,7 +12,9 @@ import { FPS } from "../../constants/game.js";
 import { gameState } from "../../state/gameState.js";
 import { drawFrame } from "../../utils/context.js";
 
+// Define a class called StatusBar to manage the game's status bar.
 export class StatusBar {
+    // Initialize class properties
     time = 99;
     timeTimer = 0;
     timeFlashTimer = 0;
@@ -30,6 +32,7 @@ export class StatusBar {
     koAnimationTimer = 0;
 
     frames = new Map ([
+        // Define frames for various elements
         ['health-bar', [16, 18, 145, 11]],
 
         ['ko-white', [161, 16, 32, 14]],
@@ -103,12 +106,15 @@ export class StatusBar {
         ['tag-ryu', [16, 56, 28, 9]],
     ]);
 
+   
     constructor() {
+        // Initialize the StatusBar instance
         this.image = document.querySelector('img[alt="misc"]');
         this.names = gameState.fighters.map(({ id }) => `tag-${id.toLowerCase()}`);
     }
 
-    updateTime (time) {
+    // Update the remaining time on the status bar
+    updateTime(time) {
         if (time.previous > this.timeTimer + TIME_DELAY) {
             this.time -= 1;
             this.timeTimer = time.previous;
@@ -122,6 +128,7 @@ export class StatusBar {
         }
     }
 
+    // Update the health bars for the fighters
     updateHealthBars(time) {
         for (const index in this.healthBars) {
             if (this.healthBars[index].hitPoints <= gameState.fighters[index].hitPoints) continue;
@@ -129,24 +136,46 @@ export class StatusBar {
         }
     }
 
+    // Update the KO (knockout) icon
     updateKoIcon(time) {
         if(this.healthBars.every((healthBar) => healthBar.hitPoints > HEALTH_CRITICAL_HIT_POINTS)) return;
         if (time.previous < this.koAnimationTimer + KO_FLASH_DELAY[this.koFrame]) return;
+
 
         this.koFrame = 1 - this.koFrame;
         this.koAnimationTimer = time.previous;
     }
 
+    // alerts gameover if a player runs out of health
+    updateEndBar(time) {
+        if(this.healthBars.every((healthBar) => healthBar.hitPoints > 0)) return;
+        alert("GameOver!");
+        alert("This part of the game is still being worked on, use Control + R to continue");
+    }
+
+    // alerts gameover if time runs out 
+    updateEndBar2(time) {
+        if (this.time < 100 && this.time > -1)
+        return;
+            alert("GameOver!");
+            alert("This part of the game is still being worked on, use Control + R to continue");
+    }
+
+    // Update the status bar with time, health bars, and KO icon
     update(time) {
         this.updateTime(time);
         this.updateHealthBars(time);
         this.updateKoIcon(time);
+        this.updateEndBar(time);
+        this.updateEndBar2(time);
     }
 
+    // Helper function to draw a specific frame on the canvas
     drawFrame(context, frameKey, x, y, direction = 1) {
         drawFrame(context, this.image, this.frames.get(frameKey), x, y, direction);
     }
 
+    // Draw the health bars on the canvas
     drawHealthBars(context) {
         this.drawFrame(context, 'health-bar', 31, 20);
         this.drawFrame(context, KO_ANIMATION[this.koFrame], 176, 18 - this.koFrame);
@@ -166,6 +195,7 @@ export class StatusBar {
         );
     }
 
+    // Draw the name tags for fighters
     drawNameTags(context) {
         const [name1, name2] = this.names;
 
@@ -173,6 +203,7 @@ export class StatusBar {
         this.drawFrame(context, name2, 322, 33);
     }
 
+    // Draw the remaining time on the status bar
     drawTime(context) {
         const timeString = String(Math.max(this.time, 0)).padStart(2, '00');
         const flashFrame = TIME_FRAME_KEYS[Number(this.useFlashFrames)];
@@ -181,12 +212,16 @@ export class StatusBar {
         this.drawFrame(context, `${flashFrame}-${timeString.charAt(1)}`, 194, 33);
     }
 
-    drawScoreLabel(context, label, x){
+
+
+    // Helper function to draw a label for scores
+    drawScoreLabel(context, label, x) {
         for (const index in label){
             this.drawFrame(context, `score-${label.charAt(index)}`, x + index * 12, 1);
         }
     }
 
+    // Draw the score for a player or opponent
     drawScore(context, score, x) {
         if (score < 1) return;
 
@@ -196,7 +231,8 @@ export class StatusBar {
         this.drawScoreLabel(context, strScore, x + padding);
     }
 
-    drawScores(context){
+    // Draw scores for player 1, opponent (ANT), and player 2
+    drawScores(context) {
         this.drawScoreLabel(context, `P1`, 4)
         this.drawScore(context, gameState.fighters[0].score, 45);
 
@@ -207,10 +243,14 @@ export class StatusBar {
         this.drawScore(context, gameState.fighters[1].score, 309); 
     }
 
-    draw (context) {
+    // Draw the entire status bar on the canvas
+    draw(context) {
         this.drawScores(context);
         this.drawHealthBars(context);
         this.drawNameTags(context);
         this.drawTime(context);
     }
 }
+
+
+

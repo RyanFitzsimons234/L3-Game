@@ -5,9 +5,11 @@ export class Ken extends Fighter {
     constructor(playerId, onAttackHit) {
         super(playerId, onAttackHit);
 
+        // Load Ken's character image.
         this.image = document.querySelector('img[alt="ken"]');
 
-        this.frames = new Map ([
+        // Define animation frames for Ken's movements and actions.
+        this.frames = new Map([
             // idle Stance
             ['idle-1', [[[346, 688, 60, 89], [34, 86]], PushBox.IDLE, HurtBox.IDLE]],
             ['idle-2', [[[2, 687, 59, 90], [33, 87]], PushBox.IDLE, HurtBox.IDLE]],
@@ -50,7 +52,7 @@ export class Ken extends Fighter {
             ['jump-land', [[[660, 1060, 55, 85], [29, 83]], PushBox.IDLE, HurtBox.IDLE]],
 
             // Crouch 
-            ['crouch-1',[[[8, 779, 53, 83], [27, 81]], PushBox.IDLE, HurtBox.IDLE]],
+            ['crouch-1',[[[8, 779, 53, 83], [27, 81]], PushBox.CROUCH, HurtBox.CROUCH]],
             ['crouch-2',[[[79, 794, 57, 69], [25, 66]], PushBox.BEND, HurtBox.BEND]],
             ['crouch-3',[[[148, 802, 61, 61], [25, 58]], PushBox.CROUCH, HurtBox.CROUCH]],
 
@@ -60,9 +62,9 @@ export class Ken extends Fighter {
             ['idle-turn-3',[[[560, 683, 54, 94], [27, 90]], PushBox.IDLE, [[-16, -96, 28, 18], [-14, -74, 40, 42], [-14, -31, 40, 32]]]],
 
             // Crouch Turn
-            ['crouch-turn-1',[[[356, 802, 53, 61], [26, 58]], PushBox.CROUCH, [[-7, 60, 24, 10], [-28, -46, 44, 24], [-28, -24, 44, 24]]]],
-            ['crouch-turn-2',[[[424, 802, 52, 61], [27, 58]], PushBox.CROUCH, [[-7, 60, 24, 10], [-28, -46, 44, 24], [-28, -24, 44, 24]]]],
-            ['crouch-turn-3',[[[486, 802, 53, 61], [29, 58]], PushBox.CROUCH, [[-26, 61, 24, 18], [-28, -46, 44, 24], [-28, -24, 44, 24]]]],
+            ['crouch-turn-1',[[[356, 802, 53, 61], [26, 58]], PushBox.CROUCH, HurtBox.CROUCH]],
+            ['crouch-turn-2',[[[424, 802, 52, 61], [27, 58]], PushBox.CROUCH, HurtBox.CROUCH]],
+            ['crouch-turn-3',[[[486, 802, 53, 61], [29, 58]], PushBox.CROUCH, HurtBox.CROUCH]],
 
             // Light Punch
             ['light-punch-1',[[[3, 1152, 64, 91], [32, 88]], PushBox.IDLE, HurtBox.IDLE]],
@@ -173,6 +175,7 @@ export class Ken extends Fighter {
             ],
         };
 
+        // Define initial X-axis velocities for different fighter states.
         this.initialVelocity = {
             x: {
                 [FighterState.WALK_FORWARD]: 3 * 60,
@@ -180,9 +183,10 @@ export class Ken extends Fighter {
                 [FighterState.JUMP_FORWARD]: ((48 * 3) + (12 * 2)),
                 [FighterState.JUMP_BAKCWARD]: -((45 * 4) + (15 * 3)),
             },
-            jump: -420,
+            jump: -420, // Define the initial jump velocity.
         };
 
+        // Set the gravitational force affecting Ryu.
         this.gravity = 1000;
     }
 }

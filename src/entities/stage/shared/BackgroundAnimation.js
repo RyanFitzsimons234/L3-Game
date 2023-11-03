@@ -1,5 +1,7 @@
+// Define a class for background animations
 export class BackgroundAnimation {
-    constructor(image, frames, animation, startFrame = 0){
+    constructor(image, frames, animation, startFrame = 0) {
+        // Initialize the background animation with provided image, frames, animation, and optional start frame
         this.image = image;
         this.frames = new Map(frames);
         this.animation = animation;
@@ -8,19 +10,20 @@ export class BackgroundAnimation {
         this.frameDelay = animation[this.animationFrame][1];
     }
 
+    // Update the background animation based on time
     update(time) {
-
         if (time.previous > this.animationTimer + this.frameDelay) {
             this.animationFrame += 1;
-        if (this.animationFrame >= this.animation.length) {
-            this.animationFrame = 0;
+            if (this.animationFrame >= this.animation.length) {
+                this.animationFrame = 0;
+            }
+
+            this.frameDelay = this.animation[this.animationFrame][1];
+            this.animationTimer = time.previous;
         }
-
-        this.frameDelay = this.animation[this.animationFrame][1];
-        this.animationTimer = time.previous;
     }
-}
 
+    // Draw the current frame of the background animation at the specified position (x, y)
     draw(context, x, y) {
         const [frameKey] = this.animation[this.animationFrame];
         const [frameX, frameY, frameWidth, frameHeight] = this.frames.get(frameKey);
@@ -28,7 +31,7 @@ export class BackgroundAnimation {
         context.drawImage(
             this.image,
             frameX, frameY, frameWidth, frameHeight,
-            x, y, frameWidth, frameHeight,
+            x, y, frameWidth, frameHeight
         );
     }
 }
