@@ -1,14 +1,18 @@
+// Import necessary modules and constants
 import { FRAME_TIME } from "../../constants/game.js";
 import { STAGE_MID_POINT, STAGE_PADDING } from "../../constants/stage.js";
 import { drawFrame } from "../../utils/context.js";
 import { BackgroundAnimation } from "./shared/BackgroundAnimation.js";
 import { SkewedFloor } from "./shared/SkewedFloor.js";
 
+// Define a class for the Ken stage
 export class KenStage {
     constructor() {
+        // Initialize the Ken stage with various elements
         this.image = document.querySelector('img[alt="stage"]');
-        this.floor = new SkewedFloor(this.image,[8, 392, 896, 56]); 
+        this.floor = new SkewedFloor(this.image, [8, 392, 896, 56]);
 
+        // Define frames for different elements
         this.frames = new Map([
             ['stage-background', [72, 208, 768, 176]],
             ['stage-boat', [8, 16, 521, 180]],
@@ -24,6 +28,8 @@ export class KenStage {
 
             ['barrels', [560, 472, 151, 96]],
         ]);
+
+        // Initialize background animations
         this.flag = new BackgroundAnimation(
             this.image,
             [
@@ -112,6 +118,7 @@ export class KenStage {
         }
     }
 
+        // Method to update the animation of the grey suit man
     updateGreySuitMan(time){
         if (time.previous > this.greySuitMan.animationTimer + this.greySuitMan.animationDelay){
             this.greySuitMan.animationTimer = time.previous;
@@ -120,6 +127,7 @@ export class KenStage {
         }
     }
 
+        // Method to update the animation of the boat
     updateBoat(time) {
         if (time.previous > this.boat.animationTimer + this.boat.animationDelay * FRAME_TIME){
             this.boat.animationTimer = time.previous;
@@ -132,6 +140,7 @@ export class KenStage {
         }
     }
 
+        // Method to update the stage elements and animations
     update(time){
         this.flag.update(time);
         this.updateBoat(time);
@@ -144,10 +153,12 @@ export class KenStage {
         this.brownSuitGuy.update(time);
     }
 
+        // Method to draw a frame at a specified position
     drawFrame(context, frameKey, x, y) {
         drawFrame(context, this.image, this.frames.get(frameKey), x, y);
     }
 
+        // Method to draw the sky and ocean background elements
     drawSkyOcean(context, camera) {
         const backgroundX = Math.floor(16 - (camera.position.x / 2.157303));
 
@@ -155,6 +166,7 @@ export class KenStage {
         this.flag.draw(context, backgroundX + 560, 16 - camera.position.y);
     }
 
+        // Method to draw the boat and associated animations
     drawBoat(context, camera){
         this.boat.position = {
             x:  Math.floor(150 - (camera.position.x / 1.613445)),
@@ -176,6 +188,7 @@ export class KenStage {
         this.brownSuitGuy.draw(context, this.boat.position.x + 88, this.boat.position.y + 24);
     }
 
+        // Method to draw the stage floor elements
     drawFloor(context, camera){
         this.floor.draw(context, camera, 176);
 
@@ -202,6 +215,7 @@ export class KenStage {
         this.drawFrame(context, 'bollard-large', Math.floor(midPoint + 147 - cameraXOffset), y);
     }
 
+        // Method to draw the entire background of the stage
     drawBackground(context, camera) {
         this.drawSkyOcean(context, camera);
         this.drawBoat(context, camera);
@@ -210,6 +224,7 @@ export class KenStage {
         this.drawFrame(context, 'barrels', Math.floor(872 - camera.position.x), 120 - camera.position.y);
     }
 
+        // Method to draw the foreground elements
     drawForeground(context, camera) {
         this.drawLargeBollards(context, camera);
     }

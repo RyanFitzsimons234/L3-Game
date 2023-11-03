@@ -5,9 +5,11 @@ export class Ryu extends Fighter {
     constructor(playerId, onAttackHit) {
         super(playerId, onAttackHit);
 
+        // Load Ryu's character image.
         this.image = document.querySelector('img[alt="ryu"]');
 
-        this.frames = new Map ([
+        // Define animation frames for Ryu's movements and actions.
+        this.frames = new Map([
             // idle Stance
             ['idle-1', [[[75, 14, 60, 89], [34, 84]], PushBox.IDLE, HurtBox.IDLE]],
             ['idle-2', [[[7, 14, 59, 90 ], [33, 87]], PushBox.IDLE, HurtBox.IDLE]],
@@ -50,7 +52,7 @@ export class Ryu extends Fighter {
             ['jump-land', [[[7, 268, 55, 85], [29, 83]], PushBox.IDLE, HurtBox.IDLE]],
 
             // Crouch 
-            ['crouch-1',[[[551, 21, 53, 83], [27, 81]], PushBox.IDLE, HurtBox.IDLE]],
+            ['crouch-1',[[[551, 21, 53, 83], [27, 81]], PushBox.CROUCH, HurtBox.CROUCH]],
             ['crouch-2',[[[611, 36, 57, 69], [25, 66]], PushBox.BEND, HurtBox.BEND]],
             ['crouch-3',[[[679, 44, 61, 61], [25, 58]], PushBox.CROUCH, HurtBox.CROUCH]],
 
@@ -91,6 +93,7 @@ export class Ryu extends Fighter {
             ['heavy-kick-5',[[[418, 1204, 64, 81], [38, 78]], PushBox.IDLE, [[-41, -78, 20, 20], [-25, -78, 42, 42], [-11, -50, 42, 50]]]],
         ]);
 
+        // Define animation sequences for different fighter states.
         this.animations = { 
             [FighterState.IDLE] : [
                 ['idle-1', 4], ['idle-2', 4], ['idle-3', 4],
@@ -173,6 +176,7 @@ export class Ryu extends Fighter {
             ],
         };
 
+        // Define initial X-axis velocities for different fighter states.
         this.initialVelocity = {
             x: {
                 [FighterState.WALK_FORWARD]: 3 * 60,
@@ -180,9 +184,10 @@ export class Ryu extends Fighter {
                 [FighterState.JUMP_FORWARD]: ((48 * 3) + (12 * 2)),
                 [FighterState.JUMP_BAKCWARD]: -((45 * 4) + (15 * 3)),
             },
-            jump: -420,
+            jump: -420, // Define the initial jump velocity.
         };
 
+        // Set the gravitational force affecting Ryu.
         this.gravity = 1000;
     }
 }
